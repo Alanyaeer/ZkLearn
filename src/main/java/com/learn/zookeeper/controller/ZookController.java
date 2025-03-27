@@ -64,5 +64,17 @@ public class ZookController {
         return new String(bytes);
     }
 
+    @GetMapping("/setData/{nodename}/{data}")
+    public String setData(@PathVariable("nodename")String nodename, @PathVariable("data") String data){
+        String path = "/"+nodename;
+        int version = 0;
+        Stat stat = null;
+        try {
+            stat = zkClient.setData(path, data.getBytes(), version);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return stat.toString();
+    }
 
 }
